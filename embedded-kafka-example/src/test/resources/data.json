@@ -1,0 +1,78 @@
+{
+  "employees": [
+    {
+      "name": "test1",
+      "id": "1e26497f-3f0b-417f-b611-b19784fc9b7f",
+      "departmentId": 1
+    },
+    {
+      "name": "test2",
+      "id": "2e26497f-3f0b-417f-b611-b19784fc9b7f",
+      "departmentId": 2
+    },
+    {
+      "name": "test3",
+      "id": "3e26497f-3f0b-417f-b611-b19784fc9b7f",
+      "departmentId": 3
+    },
+    {
+      "name": "test4",
+      "id": "4e26497f-3f0b-417f-b611-b19784fc9b7f",
+      "departmentId": 1
+    },
+    {
+      "name": "test5",
+      "id": "5e26497f-3f0b-417f-b611-b19784fc9b7f",
+      "departmentId": 1
+    }
+  ],
+  "departments": [
+    {
+      "id": 1,
+      "name":"Technology"
+    },
+    {
+      "id": 2,
+      "name":"HR"
+    },
+    {
+      "id": 3,
+      "name":"Support"
+    }
+  ],
+  "company": {
+    "employeesByDepartment": {
+      "Support": [
+        {
+          "name": "test3",
+          "id": "3e26497f-3f0b-417f-b611-b19784fc9b7f",
+          "departmentId": 3
+        }
+      ],
+      "Technology": [
+        {
+          "name": "test4",
+          "id": "4e26497f-3f0b-417f-b611-b19784fc9b7f",
+          "departmentId": 1
+        },
+        {
+          "name": "test1",
+          "id": "1e26497f-3f0b-417f-b611-b19784fc9b7f",
+          "departmentId": 1
+        },
+        {
+          "name": "test5",
+          "id": "5e26497f-3f0b-417f-b611-b19784fc9b7f",
+          "departmentId": 1
+        }
+      ],
+      "HR": [
+        {
+          "name": "test2",
+          "id": "2e26497f-3f0b-417f-b611-b19784fc9b7f",
+          "departmentId": 2
+        }
+      ]
+    }
+  }
+}
