@@ -1,4 +1,4 @@
-package com.example.demo.embedded;
+package com.example.demo;
 
 import com.example.demo.embedded.model.Company;
 import com.example.demo.embedded.model.Department;

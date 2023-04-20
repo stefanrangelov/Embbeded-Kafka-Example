@@ -1,5 +1,8 @@
-package com.example.demo.embedded;
+package com.example.demo.testcontainers;
 
+import com.example.demo.embedded.CompanyService;
+import com.example.demo.embedded.KafkaConsumer;
+import com.example.demo.embedded.KafkaProducer;
 import com.example.demo.embedded.model.Company;
 import com.example.demo.embedded.model.Department;
 import com.example.demo.embedded.model.Employee;
@@ -13,8 +16,13 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.KafkaContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,10 +32,17 @@ import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest
 @DirtiesContext
-@EmbeddedKafka(partitions = 2, count = 2, topics = {"employees", "departments", "company"}, brokerProperties = {
-        "auto.create.topics.enable=false"
-})
+@Testcontainers
 class EmbeddedKafkaIntegrationTest {
+    @Container
+    static KafkaContainer kafkaContainer =
+            new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+
+    @DynamicPropertySource
+    static void kafkaProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
+    }
+
     @Autowired
     private KafkaConsumer consumer;
 
@@ -37,14 +52,13 @@ class EmbeddedKafkaIntegrationTest {
     @Autowired
     private CompanyService companyService;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @AfterEach
     void setup() {
         consumer.clear();
     }
-
 
     @Test
     public void testEmployeeTopic() {
@@ -80,7 +94,7 @@ class EmbeddedKafkaIntegrationTest {
     }
 
     @Test
-    public void testCompanyService() throws InterruptedException {
+    public void companyServiceTest() throws InterruptedException {
         List<Employee> employees = getTestData().getEmployees();
         List<Department> departments = getTestData().getDepartments();
 

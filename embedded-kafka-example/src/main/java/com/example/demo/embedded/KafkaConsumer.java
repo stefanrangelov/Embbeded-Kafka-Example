@@ -6,13 +6,11 @@ import com.example.demo.embedded.model.Employee;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
 @Component
 public class KafkaConsumer {
@@ -26,7 +24,6 @@ public class KafkaConsumer {
     @KafkaListener(topics = "employees", groupId = "employee_consumer", containerFactory = "employeeKafkaListenerContainerFactory")
     public void listenEmployees(ConsumerRecord<Integer, Employee> consumerRecord) {
         LOGGER.info("received payload='{}'", consumerRecord.toString());
-
         employees.add(consumerRecord.value());
     }
 
@@ -36,7 +33,6 @@ public class KafkaConsumer {
 
         departments.add(consumerRecord.value());
     }
-
     @KafkaListener(topics = "company", groupId = "company_consumer", containerFactory = "companyKafkaListenerContainerFactory")
     public void listenCompanies(ConsumerRecord<Integer, Company> consumerRecord) {
         LOGGER.info("received payload='{}'", consumerRecord.toString());

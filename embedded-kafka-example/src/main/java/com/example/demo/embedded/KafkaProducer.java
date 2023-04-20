@@ -36,11 +36,7 @@ public class KafkaProducer {
 
     public void sendDepartment(Department payload)  {
         LOGGER.info("sending payload='{}' to topic='{}'", payload, "departments");
-        try {
-            departmentProducer.send("departments", payload).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        departmentProducer.send("departments", payload);
     }
 
     public void sendCompany(Company payload)  {
